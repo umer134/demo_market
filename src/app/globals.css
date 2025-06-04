@@ -1,26 +1,388 @@
-@import "tailwindcss";
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* Сброс некоторых стандартных стилей браузера */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Общий фон страницы и шрифты */
+body {
+  background-color: #121212; /* насыщенный тёмный фон */
+  color: #e0e0e0;           /* светло-серый текст */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* Контейнер под весь контент */
+.main-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 16px;
+}
+
+/* Заголовки уровня H2 */
+h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 24px;
+  color: #ffffff; /* белый заголовок */
+}
+
+/* ------------------------------------------------------------
+   Стили карточек отзывов
+   ------------------------------------------------------------ */
+
+/* Обёртка блока отзывов */
+.reviews-wrapper {
+  margin-bottom: 40px;
+}
+
+.reviews-wrapper h2 {
+  margin-bottom: 16px;
+}
+
+/* Карточка одного отзыва */
+.review-card {
+  background-color: #ffffff; /* белый фон */
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  padding: 24px;
+  margin-bottom: 16px;
+  color: #121212; /* тёмный текст внутри карточки */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.review-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.30);
+}
+
+/* Заголовок внутри карточки отзыва */
+.review-card__title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+/* Текст внутри карточки отзыва */
+.review-card__text {
+  font-size: 1rem;
+  color: #333333;
+}
+
+.review-loading {
+  font-size: 0.875rem;   
+  color: #666666;         
+  margin-bottom: 16px;
+}
+
+/* ------------------------------------------------------------
+   Стили списка товаров
+   ------------------------------------------------------------ */
+
+/* Сетка для списка товаров */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 24px;
+}
+
+/* Карточка одного товара */
+.product-card {
+  background-color: #ffffff; /* белый фон */
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.30);
+}
+
+.product-card img {
+  width: 100%;
+  object-fit: cover;
+  aspect-ratio: 1 / 1;
+}
+
+.product-card__content {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* Заголовок товара */
+.product-card__title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #121212;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Описание товара */
+.product-card__description {
+  font-size: 0.875rem;
+  color: #555555;
+  flex: 1;
+  margin-bottom: 16px;
+}
+
+/* Блок цены и кнопки */
+.product-card__bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Цена товара */
+.product-card__price {
+  font-weight: 700;
+  font-size: 1rem;
+  color: #121212;
+}
+
+/* Кнопка «Купить» */
+.button-buy {
+  background-color: #1e88e5; /* насыщенный синий */
+  color: #ffffff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.button-buy:hover {
+  background-color: #1565c0;
+}
+
+/* Блок управления количеством (когда товар в корзине) */
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.quantity-controls button {
+  width: 32px;
+  height: 32px;
+  background-color: #e0e0e0;
+  color: #121212;
+  border: none;
+  border-radius: 50%;
+  font-size: 1.25rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.quantity-controls button:hover {
+  background-color: #bdbdbd;
+}
+
+.quantity-controls input[type="number"] {
+  width: 48px;
+  padding: 4px;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  text-align: center;
+  font-size: 1rem;
+  color: #121212;
+}
+
+/* Сообщение об ошибке при загрузке */
+.error-message {
+  color: #ff5252;
+  font-weight: 500;
+  text-align: center;
+  margin: 16px 0;
+}
+
+/* ------------------------------------------------------------
+   Стили для блока «Корзина»
+   ------------------------------------------------------------ */
+
+/* Карточка корзины (аналог .review-card и .product-card) */
+.cart-card {
+  background-color: #ffffff;               /* белый фон */
+  padding: 24px;                           /* внутренние отступы */
+  border-radius: 12px;                     /* скруглённые углы */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25); /* тень */
+  color: #121212;                          /* цвет текста внутри карточки */
+}
+
+/* Заголовок внутри карточки */
+.cart-card__title {
+  font-size: 1.25rem;   /* приблизительно 20px */
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+/* Текст «Загрузка…» */
+.cart-loading {
+  font-size: 0.875rem;      /* 14px */
+  color: #666666;           /* средний серый */
+  margin-bottom: 16px;
+}
+
+/* Блок с общей инфо: количество и сумма */
+.cart-summary {
+  font-size: 0.875rem;      /* 14px */
+  margin-bottom: 16px;
+  color: #121212;
+}
+
+/* Контейнер для строк товаров */
+.cart-items {
+  margin-bottom: 16px;
+}
+
+/* Одна строка товара (название + детали) */
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+/* Название товара в строке */
+.cart-item__name {
+  font-weight: 500;
+}
+
+/* Детали (количество×цена=сумма) */
+.cart-item__detail {
+  font-size: 0.875rem; /* 14px */
+  color: #333333;
+}
+
+/* Обёртка для поля ввода телефона */
+.cart-input-wrapper {
+  margin-bottom: 16px;
+}
+
+/* Метка «Телефон:» */
+.cart-input-label {
+  display: block;
+  font-size: 0.875rem;  /* 14px */
+  margin-bottom: 4px;
+  color: #121212;
+}
+
+/* Поле ввода телефона */
+.cart-input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  color: #121212;
+}
+
+/* Если есть ошибка — красная граница */
+.cart-input.error {
+  border-color: #e53935;
+}
+
+/* Сообщение об ошибке под полем */
+.cart-error {
+  color: #e53935;        /* ярко-красный */
+  font-size: 0.75rem;    /* 12px */
+  margin-top: 4px;
+}
+
+/* Кнопка «Заказать» */
+.button-order {
+  background-color: #388e3c;   /* насыщенный зелёный */
+  color: #ffffff;
+  border: none;
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  margin-top: 16px;
+}
+
+/* Состояние :hover для кнопки */
+.button-order:hover:not(:disabled) {
+  background-color: #2e7d32;
+}
+
+/* Состояние disabled (неактивная кнопка) */
+.button-order:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* Оверлей «сплывающего» модального окна после успешного заказа */
+.success-overlay {
+  position: fixed;
+  inset: 0;                                /* top:0; right:0; bottom:0; left:0 */
+  background-color: rgba(0, 0, 0, 0.5);    /* полупрозрачный чёрный фон */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Само модальное окно (окошко «Спасибо!») */
+.success-modal {
+  background-color: #ffffff;               /* белый фон */
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  color: #121212;
+  max-width: 90%;
+  width: 320px;
+}
+
+/* Заголовок внутри модального окна */
+.success-title {
+  font-size: 1.25rem;  /* 20px */
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+/* Кнопка «Закрыть» в модальном окне */
+.success-button {
+  background-color: #1e88e5; /* насыщенный синий */
+  color: #ffffff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  margin-top: 16px;
+}
+
+/* Hover-состояние для «Закрыть» */
+.success-button:hover {
+  background-color: #1565c0;
+}
+
+/* Спиннер (например, элемент-заглушка) */
+.spinner {
+  border: 4px solid rgba(255, 255, 255, 0.25);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 0.8s linear infinite;
+  margin: 16px auto;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-}
