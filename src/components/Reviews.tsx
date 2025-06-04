@@ -2,7 +2,6 @@
 
 import { useGetReviewsQuery } from "@/store/api/reviewsApi";
 import Review from "./Review";
-import Spinner from "./Spinner";
 import { Review as ReviewType } from "@/types";
 
 export default function Reviews() {

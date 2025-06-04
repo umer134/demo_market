@@ -1,36 +1,152 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+📌 Что было реализовано:
+Основные компоненты:
 
-## Getting Started
+CartSummary: Корзина с подсчетом суммы, валидацией телефона и оформлением заказа
 
-First, run the development server:
+ProductList: Бесконечная лента товаров с пагинацией
 
-```bash
+Reviews: Блок отзывов
+
+ProductCard: Карточка товара с функционалом добавления в корзину
+
+Redux Toolkit Store:
+
+Слайсы для корзины (cartSlice) и номера телефона (phoneSlice)
+
+Persist для сохранения состояния между сессиями
+
+API-слайсы для товаров и отзывов
+
+Асинхронные запросы через RTK Query
+
+Важные функции:
+
+Бесконечный скролл товаров
+
+Валидация номера телефона (11 цифр)
+
+Анимация успешного заказа
+
+Корректное обновление количества товаров в корзине
+
+Обработка ошибок API
+
+Технические особенности:
+
+Оптимизированная загрузка данных (пагинация)
+
+TypeScript типизация
+
+Разделение кода на клиентские и серверные компоненты
+
+Проксирование API-запросов через Next.js Rewrites
+
+---
+
+🚀 Как запустить проект:
+
+1.Установите зависимости:
+ "@reduxjs/toolkit": "^2.8.2",
+    "dotenv": "^16.5.0",
+    "next": "15.3.3",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-redux": "^9.2.0",
+    "redux-persist": "^6.0.0"
+
+через команды:
+bash
+npm install
+# или
+yarn install
+
+2.Настройте окружение:
+
+Создайте файл .env.local в корне проекта:
+env
+API_BASE_URL="https://ваш-бекенд.адрес(базовый)"
+
+3. Запустите приложение:
+
+bash
 npm run dev
-# or
+# или
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+4.Откройте в браузере:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+http://localhost:3000
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+⚙️ Технический стек:
+Next.js 14 (App Router)
 
-To learn more about Next.js, take a look at the following resources:
+Redux Toolkit + RTK Query
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+TypeScript
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Redux Persist
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+🎯 Особенности реализации:
+Оптимизация запросов:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Пагинация товаров (20 на странице)
+
+Кэширование данных через RTK Query
+
+Фоновая перевалидация данных
+
+UX-улучшения:
+
+Лоадеры при загрузке
+
+адаптивная верстка: автонастрока размеров и позиционарирования блоков на странице регулируются грид сеткой
+
+Валидация форм в реальном времени
+
+Модальное окно подтверждения заказа
+
+Локализация цен (RUB)
+
+Архитектура:
+
+Четкое разделение компонентов
+
+Кастомные хуки для работы со store
+
+Изолированные API-слои
+
+---
+
+graph TD
+    A[Главная страница] --> B[Reviews]
+    A --> C[CartSummary]
+    A --> D[ProductList]
+    D --> E[ProductCard]
+    C --> F[Redux Store]
+    D --> F
+    F --> G[Cart Slice]
+    F --> H[Phone Slice]
+    F --> I[Products API]
+    F --> J[Reviews API]
+
+---
+💡 Рекомендации по улучшению:
+Добавить тесты (Jest + React Testing Library)
+
+Добавить фильтрацию и сортировку товаров
+
+Внедрить механизм кэширования изображений
+
+Добавить аналитику (Google Analytics)
+
+Реализовать систему скидок/промокодов
+
+Добавить историю заказов
+
+---
+
+Примечание: Для работы с API необходимо заменить API_BASE_URL в .env.local на актуальный адрес бекенда. Все запросы проксируются через Next.js Rewrites для избежания CORS-ошибок.
